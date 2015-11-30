@@ -362,7 +362,7 @@ function newrelic_file_get_contents_intercept() {
 
 // fread and fwrite (e.g. Redis)
 function newrelic_fread(resource $handle, int $length) {
-    if (empty(stream_get_meta_data($handle)['uri'])) {
+    if (empty(stream_get_meta_data($handle)['uri']) && stream_get_meta_data($handle)['wrapper_type'] != 'plainfile') {
         $seg = newrelic_segment_external_begin('sock_read[' . stream_socket_get_name($handle,true) . ']', 'fread');
     } else {
         $seg = newrelic_segment_external_begin('file', 'fread');
@@ -373,7 +373,7 @@ function newrelic_fread(resource $handle, int $length) {
 }
 
 function newrelic_fwrite( resource $handle, string $string, int $length = -1 ) {
-    if (empty(stream_get_meta_data($handle)['uri'])) {
+    if (empty(stream_get_meta_data($handle)['uri']) && stream_get_meta_data($handle)['wrapper_type'] != 'plainfile') {
         $seg = newrelic_segment_external_begin('sock_write[' . stream_socket_get_name($handle,true) . ']', 'fwrite');
     } else {
         $seg = newrelic_segment_external_begin('file', 'fwrite');
@@ -408,7 +408,7 @@ function newrelic_curl_intercept() {
 
 // socket_read and socket_write (e.g. MongoDB (mongofill))
 function newrelic_socket_read(resource $socket, int $length, int $type = PHP_BINARY_READ) {
-    if (empty(stream_get_meta_data($socket)['uri'])) {
+    if (empty(stream_get_meta_data($socket)['uri']) && stream_get_meta_data($socket)['wrapper_type'] != 'plainfile') {
         $seg = newrelic_segment_external_begin('sock_read[' . stream_socket_get_name($socket,true) . ']', 'socket_read');
     } else {
         $seg = newrelic_segment_external_begin('file', 'socket_read');
@@ -419,7 +419,7 @@ function newrelic_socket_read(resource $socket, int $length, int $type = PHP_BIN
 }
 
 function newrelic_socket_write( resource $socket, string $string, int $length = 0 ) {
-    if (empty(stream_get_meta_data($socket)['uri'])) {
+    if (empty(stream_get_meta_data($socket)['uri']) && stream_get_meta_data($socket)['wrapper_type'] != 'plainfile') {
         $seg = newrelic_segment_external_begin('sock_write[' . stream_socket_get_name($socket,true) . ']', 'socket_write');
     } else {
         $seg = newrelic_segment_external_begin('file', 'socket_write');
@@ -430,7 +430,7 @@ function newrelic_socket_write( resource $socket, string $string, int $length = 
 }
 
 function newrelic_socket_recv( resource $socket , &$buf , int $len , int $flags ) {
-    if (empty(stream_get_meta_data($socket)['uri'])) {
+    if (empty(stream_get_meta_data($socket)['uri']) && stream_get_meta_data($socket)['wrapper_type'] != 'plainfile') {
         $seg = newrelic_segment_external_begin('sock_read[' . stream_socket_get_name($socket,true) . ']', 'socket_read');
     } else {
         $seg = newrelic_segment_external_begin('file', 'socket_read');
