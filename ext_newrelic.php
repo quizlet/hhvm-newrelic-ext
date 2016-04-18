@@ -343,9 +343,6 @@ function _newrelic_mysqli_segment_end($name, $obj, $args, $data, &$done) {
     $done = false;
 }
 
-
-
-
 // file_get_contents (e.g. solr)
 function newrelic_file_get_contents(string $filename, bool $use_include_path = false, resource $context = null, int $offset = -1, int $maxlen = -1) {
     $seg = newrelic_segment_external_begin($filename, 'file_get_contents');
@@ -358,7 +355,6 @@ function newrelic_file_get_contents_intercept() {
     fb_rename_function('file_get_contents', 'obs_file_get_contents');
     fb_rename_function('newrelic_file_get_contents', 'file_get_contents');
 }
-
 
 // fread and fwrite (e.g. Redis)
 function newrelic_fread(resource $handle, int $length) {

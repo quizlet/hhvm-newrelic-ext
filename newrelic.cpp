@@ -260,6 +260,7 @@ public:
         HHVM_FE(newrelic_notice_error_intern);
         HHVM_FE(newrelic_add_attribute_intern);
         HHVM_FE(newrelic_set_external_profiler);
+        HHVM_FE(newrelic_custom_metric);
 
         loadSystemlib();
     }
