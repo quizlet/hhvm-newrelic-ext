@@ -282,7 +282,7 @@ function _newrelic_parse_query($query): array {
 			return ['update', 'unknown'];
 		}
 	} else if (preg_match( '/^\s*DELETE/i', $query)) {
-		if (preg_match('/DELETE\s+[`\'"]?([a-z\d_\.]+)[`\'"]?/i', $query, $match)) {
+		if (preg_match('/DELETE\s+FROM\s+[`\'"]?([a-z\d_\.]+)[`\'"]?/i', $query, $match)) {
 			return ['delete', $match[1]];
 		} else {
 			return ['delete', 'unknown'];
@@ -294,11 +294,11 @@ function _newrelic_parse_query($query): array {
 			return ['select', 'SHOW'];
 		}
 	} else if (preg_match( '/^\s*BEGIN/i', $query)) {
-		return ['select', 'BEGIN'];
+		return ['insert', 'BEGIN'];
 	} else if (preg_match( '/^\s*COMMIT/i', $query)) {
-		return ['select', 'COMMIT'];
+		return ['insert', 'COMMIT'];
 	} else if (preg_match( '/^\s*ROLLBACK/i', $query)) {
-		return ['select', 'ROLLBACK'];
+		return ['insert', 'ROLLBACK'];
         }
 
 	return ['select', 'undefined'];
